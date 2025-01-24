@@ -1,0 +1,410 @@
+\documentclass{article}
+
+\usepackage{animate}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue]{hyperref}
+\usepackage[italian]{babel}
+
+\newcommand{\rom}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\begin{document}
+
+\title{Prova integrativa di Teoria dei Sistemi - Dinamica Non Lineare}
+\author{Luca Pozzato}
+\date{27 gennaio 2025}
+
+% add title and table of contents on the bottom of the title page
+\maketitle
+\vspace{15em}
+\tableofcontents
+
+\newpage
+
+\section{Equazioni di stato}
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.50\textwidth}
+        \includegraphics[width=\linewidth]{images/circuit_clean.png}
+        \caption{Circuito senza annotazioni}
+        \label{fig:circuito_clean}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.65\textwidth}
+        \includegraphics[width=\linewidth]{images/circuit_annotated.png}
+        \caption{Circuito annotato utilizzando le leggi di Kirchhoff}
+        \label{fig:circuito_annotato}
+    \end{subfigure}
+    \caption{Circuito elettrico}
+    \label{fig:side_by_side}
+\end{figure}
+
+Dato il circuito elettrico in Figura \ref{fig:side_by_side}, possiamo scrivere le equazioni di stato del sistema utilizzando le leggi di Kirchhoff e utilizzando le equazioni caratteristiche dell'induttore e del condensatore. Dato che:
+\begin{align*}
+     & x_1 = i_L                        \\
+     & x_2 = v_C                        \\
+     & i_R = x_1                        \\
+     & i   = -\alpha x_2 + \beta x_2^3,
+\end{align*}
+
+Date anche le equazioni caratteristiche dell'induttore, del condensatore e del resistore:
+\begin{align*}
+     & v_L = L \frac{di_L}{dt} = L \dot{x_1}, \\
+     & i_C = C \frac{dv_C}{dt} = C \dot{x_2}, \\
+     & v_R = R i_R = R x_1.
+\end{align*}
+
+Dalla prima legge di Kirchhoff possiamo scrivere:
+\begin{align*}
+     & x_1 + i_C + i = 0,        \\
+     & i_C           = -x_1 - i.
+\end{align*}
+
+Analogamente, dalla seconda legge:
+\begin{align*}
+     & x_2 - v_L - v_R = 0,           \\
+     & v_L             = x_2 - v_R,   \\
+     & v_L             = x_2 - R x_1.
+\end{align*}
+
+Infine, sostituendo le equazioni caratteristiche dell'induttore, otteniamo:
+
+\begin{align*}
+     & L \dot{x_1} = - R x_1 + x_2,                    \\
+     & \dot{x_1}   = -\frac{R}{L} x_1 + \frac{x_2}{L}.
+\end{align*}
+
+Analogamente, per il condensatore:
+
+\begin{align*}
+     & C \dot{x_2} = -x_1 - i,                                                      \\
+     & C \dot{x_2} = -x_1 - (-\alpha x_2 + \beta x_2^3),                            \\
+     & C \dot{x_2} = -x_1 + \alpha x_2 - \beta x_2^3,                               \\
+     & \dot{x_2}   = -\frac{x_1}{C} + \frac{\alpha}{C} x_2 - \frac{\beta}{C} x_2^3.
+\end{align*}
+
+Quindi, le equazioni di stato del sistema sono:
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+         & \dot{x_1} = -\frac{R}{L}x_1 + \frac{x_2}{L}                             \\
+         & \dot{x_2} = -\frac{x_1}{C} + \frac{\alpha}{C}x_2 - \frac{\beta}{C}x_2^3
+    \end{aligned}
+    \right.
+\end{equation}
+
+\section{Oscillazione con R sufficientemente grande}
+
+Analizzando la divergenza del sistema, possiamo osservare che per \(R\) sufficientemente grande, la divergenza div\(f\) dove \(f\) è un sistema, nel nostro caso \(f = [f_1, f_2] = [\dot{x_1}, \dot{x_2}]\), espressa come div\(f = \frac{df_1}{dx_1} + \frac{df_2}{dx_2}\), non cambia segno. Infatti data la divergenza del sistema:
+
+\begin{align*}
+     & \text{div}(f) = \frac{d(-\frac{R}{L}x_1 + \frac{x_2}{L})}{dx_1} + \frac{d(-\frac{x_1}{C} + \frac{\alpha}{C}x_2 - \frac{\beta}{C}x_2^3)}{dx_2}, \\
+     & \text{div}(f) = -\frac{R}{L} + \frac{\alpha}{C} - \frac{3\beta x_2^2}{C}.
+\end{align*}
+
+si può osservare che al variare di \(R\) si ha:
+\begin{align*}
+     & R \geq \frac{\alpha L}{C} \hspace{1em} \text{la divergenza non cambia segno, quindi } \nexists \text{ cicli} \\\\
+     & R < \frac{\alpha L}{C} \hspace{1em} \text{la divergenza cambia segno, quindi } \exists \text{ cicli}
+\end{align*}
+
+Per \(R\) sufficientemente grande, la divergenza non cambia segno e quindi il circuito non può oscillare.
+Inoltre analizzando il circuito da un punto di vista puramente logico, dato una resistenza \(R\) sufficientemente grande, il resistore si può approssimare ad un circuito aperto mostrato in figura \ref{fig:circuito_aperto}.
+
+\begin{figure}[ht]
+    \includegraphics[width=\linewidth]{images/circuit_r_big.png}
+    \caption{Circuito aperto}
+    \label{fig:circuito_aperto}
+\end{figure}
+
+Dato il circuito aperto, la corrente \(i_R\) risulta essere nulla e di conseguenza si verifica che \(i_L = x_1 = 0\). Dalle equazioni del sistema si può osservare che se \(x_1 = 0\), allora \(\dot{x_1} = 0\), ciò si verifica se e solo se \([x_1 = 0, x_2 = c]\), dove \(c\) è una costante, \([x_1 = 0, x_2 = c]\) è quindi l'unico equilibrio del circuito con resistenza \(R\) sufficientemente grande. Dato che il determinante della matrice Jacobiana è positivo, e la traccia è negativa, l'equilibrio risulta asintoticamente stabile; quindi per tempo \(t \to \infty\) il sistema tende a convergere all'equilibrio \([0, c]\). Durante il transitorio, risolvendo il sistema di equazioni differenziali, si ottiene la soluzione mostrata in figura \ref{fig:soluzione_ode}, e si verifica che non vi sono oscillazioni.
+
+Per paragone in figura \ref{fig:oscillazione_circuito} è mostrato il circuito con resistenza \(R = -0.5\) e condizioni iniziali \(x_1 = 0.1\) e \(x_2 = 0.1\), data la presenza di un ciclo limite stabile, si può osservare che il sistema oscilla.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{images/system_r_infinite.png}
+        \caption{Soluzione del sistema con resistenza \(R = \infty\)}
+        \label{fig:soluzione_ode}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{images/system_periodicity.png}
+        \caption{Soluzione del sistema con resistenza \(R = -0.5\)}
+        \label{fig:oscillazione_circuito}
+    \end{subfigure}
+    \caption{Soluzioni del sistema}
+    \label{fig:soluzioni}
+\end{figure}
+
+\section{Stati di equilibrio e biforcazioni}
+
+Analizzando il sistema e ponendo l'equazioni del sistema a zero:
+\begin{align*}
+     & -\frac{R}{L}\overline{x_1} + \frac{\overline{x_2}}{L} = 0,                                        \\
+     & -\frac{\overline{x_1}}{C} + \frac{\alpha}{C}\overline{x_2} - \frac{\beta}{C}\overline{x_2}^3 = 0.
+\end{align*}
+
+e risolvendo il sistema di equazioni, si ottengono i seguenti punti di equilibrio:
+
+\begin{align*}
+    (x_1, x_2)^\text{\rom{1}} & = (0, 0),                                                                \\
+    (x_1, x_2)^\text{\rom{2}} & = \left(\sqrt{\frac{a R - 1}{b R^3}}, \sqrt{\frac{aR - 1}{bR}}\right),   \\
+    (x_1, x_2)^\text{\rom{3}} & = \left(-\sqrt{\frac{a R - 1}{b R^3}}, -\sqrt{\frac{aR - 1}{bR}}\right).
+\end{align*}
+
+Utilizzando il metodo di linearizzazione, si può calcolare la matrice Jacobiana del sistema:
+\[
+    J(x_1, x_2) =
+    \begin{bmatrix}
+        -\frac{R}{L} & \frac{1}{L}                      \\\\
+        -\frac{1}{C} & \frac{a}{C} - \frac{3b x_2^2}{C}
+    \end{bmatrix}
+\]
+
+la traccia della matrice Jacobiana:
+\[
+    \text{tr}(J) = - \frac{R}{L} + \frac{a}{C} - \frac{3b x_2^2}{C}
+\]
+
+e il determinante della matrice Jacobiana:
+\[
+    \det(J) = \frac{3 R b x_2^2 - R a + 1}{C L}
+\]
+
+sostituendo i punti di equilibrio nella matrice Jacobiana e calcolando la traccia e il determinante, si ottengono le seguenti condizioni per la stabilità:
+
+Per il punto di equilibrio \(\text{\rom{1}} = (0, 0)\) si ottiene che la matrice Jacobiana risulta essere:
+
+\[
+    J^\text{\rom{1}} =
+    \begin{bmatrix}
+        -\frac{R}{L} & \frac{1}{L} \\\\
+        -\frac{1}{C} & \frac{a}{C}
+    \end{bmatrix}
+\]
+
+quindi la traccia e il determinante risultano essere:
+\begin{align*}
+     & \text{tr}(J^\text{\rom{1}}) = -\frac{R}{L} + \frac{a}{C}, \\
+     & \det(J^\text{\rom{1}})      = \frac{1 - \alpha R}{C L}.
+\end{align*}
+
+da cui si può osservare che la traccia risulta negativa per \(R > \frac{\alpha L}{C}\) e il determinante positivo per \(R < \frac{1}{\alpha}\), quindi si può definire la seguente tabella:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $ $                & $R < \frac{\alpha L}{C}$ & $\frac{\alpha L}{C} < R < \frac{1}{\alpha}$ & $\frac{1}{\alpha} < R$ \\ \hline
+        $\text{tr}$        & $+$                      & $-$                                         & $-$                    \\ \hline
+        $\det$             & $+$                      & $+$                                         & $-$                    \\ \hline
+        $\text{stabilità}$ & $\text{instabile}$       & $\text{asintoticamente stabile}$            & $\text{sella}$         \\ \hline
+    \end{tabular}
+    \caption{Stabilità del punto di equilibrio \(\text{\rom{1}}\)}
+\end{table}
+
+Da questa tabella si può anche notare che esiste una biforcazione di Hopf supercritica per \(R = \frac{\alpha L}{C}\) dato che la traccia cambia segno e il determinante rimane positivo, si intuisce che la biforcazione sia supercritica dato che il punto di equilibrio \(\text{\rom{1}}\) diventa asintoticamente stabile e per \(R > \frac{\alpha L}{C}\) non ci possono essere cicli limite.
+
+Dato che il punto di equilibrio \rom{2} e \rom{3} sono simmetrici rispetto all'asse \(y = -x\) e la matrice Jacobiana è equivalante per entrambi i punti, si ottiene che:
+
+\[
+    J^\text{\rom{2}} = J^\text{\rom{3}} =
+    \begin{bmatrix}
+        -\frac{R}{L} & \frac{1}{L}        \\\\
+        -\frac{1}{C} & \frac{3 - 2aR}{CR}
+    \end{bmatrix}
+\]
+
+da cui si ottiene che la traccia e il determinante risultano essere:
+\begin{align*}
+     & \text{tr}(J^\text{\rom{2}}) = -\frac{R}{L} + \frac{3 - 2aR}{C R}, \\\\
+     & \det(J^\text{\rom{2}})      = \frac{2(aR - 1)}{CL}.
+\end{align*}
+
+da cui si può osservare che il determinante risulta essere positivo per \(R > \frac{1}{a}\) e la traccia negativa per:
+
+\begin{align*}
+     & \sqrt{\frac{L(a^2L + 3C)}{C^2}} - \frac{aL}{C} < R,       \\
+     & - \sqrt{\frac{L(a^2L + 3C)}{C^2}} - \frac{aL}{C} < R < 0.
+\end{align*}
+
+per leggibilità definisco \(R^\text{\rom{1}} = - \sqrt{\frac{L(a^2L + 3C)}{C^2}} - \frac{aL}{C}\) e \(R^\text{\rom{2}} = \sqrt{\frac{L(a^2L + 3C)}{C^2}} - \frac{aL}{C}\)
+
+inoltre gli equilibri esistono solo per alcuni valori di \(R\), si ha infatti che:
+\begin{align*}
+     & \frac{a R - 1}{b R^3} > 0 \hspace{1em} \text{e} \hspace{1em} \frac{a R - 1}{b R} > 0,   \\
+     & \text{si ha che} \hspace{1em} R > \frac{1}{a} \hspace{1em} \text{e} \hspace{1em} R < 0.
+\end{align*}
+
+quindi si può definire la seguente tabella:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        $ $                & $R < R^\text{\rom{1}}$ & $R^\text{\rom{1}} < R < 0$ & $0 < R < R^\text{\rom{2}}$  & $R^\text{\rom{2}} < R < \frac{1}{\alpha}$ & $\frac{1}{\alpha} < R$           \\ \hline
+        $\text{tr}$        & $+$                    & $-$                        & $+$                         & $-$                                       & $-$                              \\ \hline
+        $\det$             & $-$                    & $-$                        & $-$                         & $-$                                       & $+$                              \\ \hline
+        $\text{stabilità}$ & $\text{sella}$         & $\text{sella}$             & $\nexists\text{ equilibri}$ & $\nexists\text{ equilibri}$               & $\text{asintoticamente stabile}$ \\ \hline
+    \end{tabular}
+    \caption{Stabilità del punto di equilibrio \(\text{\rom{2}}\) e \(\text{\rom{3}}\)}
+\end{table}
+
+Dall'analisi di questi punti di equilibrio si può osservare che oltre alla biforcazione di Hopf, esiste una biforcazione a forcone supercritica dato che il punto di equilibrio \(\text{\rom{1}}\) per \(R > \frac{1}{\alpha}\) diventa una sella, invece i due punti di equilibrio \(\text{\rom{2}}\) e \(\text{\rom{3}}\) che non esistono per \(R < \frac{1}{a}\) diventano asintoticamente stabili per \(R > \frac{1}{\alpha}\).
+
+\section{Invarianti del sistema al variare di R}
+
+In figura \ref{fig:invarianti} e in \ref{fig:sistema_grafo} sono mostrati gli invarianti (equilibri e cicli) del sistema nello spazio \(R, x_1, x_2\), in verde gli attrattori, in rosso i repulsori e in blu le selle. Si può osservare che per \(R > \frac{\alpha L}{C}\) non vi sono cicli limite, mentre per \(R < \frac{\alpha L}{C} = 0.04 \), si ha un ciclo limite stabile che deriva dalla biforcazione di Hopf supercritica. Con \(R = \frac{1}{\alpha} = 25\) si può notare la biforcazione a forcone supercritica, dove il punto di equilibrio \(\text{\rom{1}}\) diventa una sella e i punti di equilibrio \(\text{\rom{2}}\) e \(\text{\rom{3}}\) diventano asintoticamente stabili.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{images/invarianti_1.png}
+    \caption{Invarianti del sistema nello spazio (\(R, x_1, x_2\))}
+    \label{fig:invarianti}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\linewidth]{images/system_x2.png}
+        \caption{Invarianti del sistema nello spazio (\(R, x_2\))}
+        \label{fig:sistema_x2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\linewidth]{images/system_x1.png}
+        \caption{Invarianti del sistema nello spazio (\(R, x_1\))}
+        \label{fig:sistema_x1}
+    \end{subfigure}
+    \caption{Invarianti del sistema}
+    \label{fig:sistema_grafo}
+\end{figure}
+
+\newpage
+
+\section{Numero biforcazioni}
+
+Dall'analisi del sistema si può anche notare che oltre alla biforcazione di Hopf supercritica e alla biforcazione a forcone supercritica, vi sono anche 2 biforcazioni omocline, si può notare nella \ref{fig:invarianti} che le due selle simmetriche date dagli equilibri \(\text{\rom{2}}\) e \(\text{\rom{3}}\) si avvicinano e si intersecano con il ciclo limite stabile che diventa un'orbita omoclinica.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        $\text{forcone}$           & $1$ \\ \hline
+        $\text{Hopf}$              & $1$ \\ \hline
+        $\text{omoclina}$          & $2$ \\ \hline
+        $\text{tangente di cicli}$ & $0$ \\ \hline
+    \end{tabular}
+    \caption{Tabella delle biforcazioni}
+\end{table}
+
+\section{Caos, sezione di Poincaré ed esponenti di Lyapunov}
+
+Dato che la resistenza R viene qui definita in funzione del tempo come: \\ \(R(t) = \overline{R}(1 + 0.25sin(\omega t))\), analizzando il sistema con simulazioni numeriche utilizzando il risolutore ODE15s di MATLAB, si può osservare come per \(\omega = 0.02\), \(\overline{R} = -0.64\) e condizioni iniziali pari a \([x_1 = 1, x_2 = 1]\) il sistema risulta essere caotico. In figura \ref{fig:chaos} è mostrato l'attrattore caotico nello spazio (\(x_1, x_2, R\)) e la sezione di Poincaré per \(R = \overline{R}\)
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/chaos.png}
+    \caption{Attrattore caotico nello spazio (\(x_1, x_2, R\)) e sezione di Poincaré}
+    \label{fig:chaos}
+\end{figure}
+
+Sempre utilizzando MATLAB è stato possibile anche simulare il sistema e creare un animazione del sistema nel tempo con due condizioni iniziali diverse, la prima con \([x_1 = 1, x_2 = 1]\) (in rosso) e la seconda con \([x_1 = 1.000001, x_2 = 1]\) (in blu), si può osservare come le due traiettorie divergono nel tempo, confermando che il sistema è sensibile alle condizioni iniziali, inoltre mostrando anche fenomeni di stretching e folding. Utilizzando Adobe Acrobat Reader per leggere questo documento, è possibile visualizzare l'animazione. Utilizzando inoltre l'applicazione \href{https://it.mathworks.com/matlabcentral/fileexchange/4628-calculation-lyapunov-exponents-for-ode}{Calculation Lyapunov Exponents for ODE} su MATLAB è stato possibile calcolare gli esponenti di Lyapunov del sistema, ottenendo i seguenti valori: \(\lambda_1 = 0.003050\), \(\lambda_2 = -0.116506\), confermando che il sistema è caotico. In figura \ref{fig:lyapunov} sono mostrati gli esponenti di Lyapunov nel tempo e in figura \ref{fig:animazione} l'animazione del sistema nel tempo.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{images/lyapunov.png}
+    \caption{Esponenti di Lyapunov}
+    \label{fig:lyapunov}
+\end{figure}
+
+% \vspace{2em}
+
+\begin{figure}[ht]
+    \centering
+    \animategraphics[loop,autoplay,width=\linewidth]{15}{images/animation/frame_}{001}{902}
+    \caption{Animazione del sistema nel tempo}
+    \label{fig:animazione}
+\end{figure}
+
+\newpage
+
+\section{Diagramma di biforcazione}
+
+Infine, si può osservare in figura \ref{fig:diagramma_biforcazione_singolo} il diagramma della stabilità dei singoli equilibri e il numero degli equilibri nello spazio (\(R, \alpha\)) e in figura \ref{fig:diagramma_biforcazione} il diagramma di biforcazione nello spazio (\(R, \alpha\))
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/bifurcation_single.png}
+    \caption{Diagramma della stabilità dei singoli equilibri nello spazio (\(R,\alpha\))}
+    \label{fig:diagramma_biforcazione_singolo}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/bifurcation_diagram.png}
+    \caption{Diagramma di biforcazione nello spazio (\(R, \alpha\))}
+    \label{fig:diagramma_biforcazione}
+\end{figure}
+
+\newpage
+Per ogni regione viene infine riportato in figura \ref{fig:sketch_qualitativo} uno sketch qualitativo del comportamento del sistema. Gli sketch e l'analisi degli equilibri sono stati realizzati utilizzando l'applicazione {\href{https://it.mathworks.com/matlabcentral/fileexchange/91705-phase-plane-and-slope-field-apps}{Phase Plane and Slope Field}} su MATLAB.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_1.png}
+        \subcaption{Regione 1,\\\(R = -2, \alpha = 2\)\\2 selle instabili\\1 spirale instabile}
+    \end{minipage}
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_2.png}
+        \subcaption{Regione 2,\\\(R = 0.5, \alpha = 1\)\\1 spirale instabile}
+    \end{minipage}
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_3.png}
+        \subcaption{Regione 3,\\\(R = 0.531, \alpha = 2.09419\)\\2 nodi instabili\\1 sella instabile}
+    \end{minipage}
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_6.png}
+        \subcaption{Regione 6,\\\(R = -3, \alpha = -3\)\\1 sella instabile}
+    \end{minipage}
+
+    \vspace{1em}
+
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_4.png}
+        \subcaption{Regione 4,\\\(R = -0.531062, \alpha = -0.531062\)\\2 selle instabili\\1 centro}
+    \end{minipage}
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_5.png}
+        \subcaption{Regione 5,\\\(R = 3, \alpha = 3\)\\2 nodi stabili\\1 sella instabile}
+    \end{minipage}
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_7.png}
+        \subcaption{Regione 7,\\\(R = -0.350701, \alpha = -1.03206\)\\2 selle instabili\\1 spirale stabile}
+    \end{minipage}
+    \begin{minipage}{0.24\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/system_8.png}
+        \subcaption{Regione 8,\\\(R = 3, \alpha = -2\)\\1 spirale stabile}
+    \end{minipage}
+
+    \caption{Sketch qualitativo del comportamento del sistema}
+    \label{fig:sketch_qualitativo}
+\end{figure}
+
+\end{document}

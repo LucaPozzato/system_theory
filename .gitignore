@@ -1,0 +1,7 @@
+matlab/*.asv
+matlab/*.fig
+matlab/test.m
+documents/document.*
+!documents/document.tex
+!documents/document.pdf
+**/*.DS_Store
