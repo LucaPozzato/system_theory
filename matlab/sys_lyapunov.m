@@ -30,8 +30,6 @@ function f=proj_sys(t,X)
     f(3:6)=Jac*Y;
 end
 
-%Output data must be a column vector
-
 [T,Res]=lyapunov(2,@proj_sys,@ode15s,0,0.5,50000,[1, 1],10000);
 plot(T,Res);
 title('Dynamics of Lyapunov exponents');
